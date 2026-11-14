@@ -1,0 +1,5 @@
+.venv/
+__pycache__/
+*.pyc
+registros/
+prueba_logs.py
