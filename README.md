@@ -6,10 +6,6 @@ Software FJ es una aplicación desarrollada en Python que permite gestionar clie
 
 El proyecto utiliza almacenamiento en memoria y un sistema de registro de eventos y errores mediante archivos de log. No requiere conexión a una base de datos.
 
-## 1. Objetivo
-
-Desarrollar un sistema que permita registrar clientes, administrar diferentes tipos de servicios, crear y gestionar reservas, calcular costos y controlar las operaciones mediante excepciones personalizadas.
-
 ## 2. Funcionalidades principales
 
 - Registro y validación de clientes.
@@ -128,4 +124,4 @@ El programa captura los errores esperados y continúa con las siguientes operaci
 
 ## 12. Autores
 
-Proyecto académico desarrollado colaborativamente por el equipo de Software FJ.
+Proyecto académico desarrollado colaborativamente por el equipo de Software FJ, grupo 1. 
