@@ -71,7 +71,7 @@ Ubicarse en la carpeta raíz del proyecto y ejecutar:
 python main.py
 ```
 
-El programa ejecuta una simulación general de 13 operaciones, incluyendo casos exitosos y situaciones de error controlado.
+El programa ejecuta una simulación general de 14 operaciones, incluyendo casos exitosos y situaciones de error controlado.
 
 ## 8. Ejecución de pruebas
 
@@ -83,6 +83,7 @@ python prueba_servicios.py
 python prueba_servicios_completa.py
 python prueba_integracion.py
 python prueba_robustez.py
+python prueba_logs.py
 ```
 
 Para ejecutar la simulación general:
