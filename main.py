@@ -32,7 +32,13 @@ def mostrar_titulo():
     print("=" * 60)
 
 
-def ejecutar_operacion(numero, descripcion, funcion):
+
+def ejecutar_operacion(
+    numero,
+    descripcion,
+    funcion,
+    contadores
+):
     """
     Ejecuta una operacion y captura los errores
     para evitar que se interrumpa la simulacion.
@@ -43,22 +49,32 @@ def ejecutar_operacion(numero, descripcion, funcion):
     try:
         resultado = funcion()
 
-        if resultado is not None:
-            print(resultado)
-
-        print("Resultado: EXITOSO")
-        registrar_evento(
-            f"Operacion {numero} exitosa: {descripcion}"
-        )
-
     except Exception as error:
-        print(f"Resultado: ERROR CONTROLADO")
+        contadores["fallidas"] += 1
+
+        print("Resultado: ERROR CONTROLADO")
         print(f"Detalle: {error}")
 
         registrar_error(
             f"Operacion {numero} fallida: {descripcion}. "
             f"Detalle: {error}"
         )
+
+    else:
+        contadores["exitosas"] += 1
+
+        if resultado is not None:
+            print(resultado)
+
+        print("Resultado: EXITOSO")
+
+        registrar_evento(
+            f"Operacion {numero} exitosa: {descripcion}"
+        )
+
+    finally:
+        print(f"Operacion {numero} finalizada.")
+
 
 
 def ejecutar_simulacion():
@@ -69,6 +85,11 @@ def ejecutar_simulacion():
     clientes = {}
     servicios = {}
     reservas = {}
+
+    contadores = {
+        "exitosas": 0,
+        "fallidas": 0
+    }
 
     # Operacion 1: Registrar un cliente.
     def registrar_cliente():
@@ -86,7 +107,8 @@ def ejecutar_simulacion():
     ejecutar_operacion(
         1,
         "Registrar cliente",
-        registrar_cliente
+        registrar_cliente,
+        contadores
     )
 
     # Operacion 2: Registrar un segundo cliente.
@@ -105,7 +127,8 @@ def ejecutar_simulacion():
     ejecutar_operacion(
         2,
         "Registrar segundo cliente",
-        registrar_segundo_cliente
+        registrar_segundo_cliente,
+        contadores
     )
 
     # Operacion 3: Intentar registrar un cliente invalido.
@@ -121,7 +144,8 @@ def ejecutar_simulacion():
     ejecutar_operacion(
         3,
         "Registrar cliente con datos invalidos",
-        registrar_cliente_invalido
+        registrar_cliente_invalido,
+        contadores
     )
 
     # Operacion 4: Crear alquiler de equipo.
@@ -137,7 +161,8 @@ def ejecutar_simulacion():
     ejecutar_operacion(
         4,
         "Crear servicio de alquiler de equipo",
-        crear_alquiler
+        crear_alquiler,
+        contadores
     )
 
     # Operacion 5: Crear asesoria especializada.
@@ -153,7 +178,8 @@ def ejecutar_simulacion():
     ejecutar_operacion(
         5,
         "Crear servicio de asesoria",
-        crear_asesoria
+        crear_asesoria,
+        contadores
     )
 
     # Operacion 6: Crear reserva de sala.
@@ -170,7 +196,8 @@ def ejecutar_simulacion():
     ejecutar_operacion(
         6,
         "Crear servicio de reserva de sala",
-        crear_sala
+        crear_sala,
+        contadores  
     )
 
     # Operacion 7: Crear una reserva de alquiler.
@@ -191,7 +218,8 @@ def ejecutar_simulacion():
     ejecutar_operacion(
         7,
         "Crear reserva de alquiler de equipo",
-        crear_reserva
+        crear_reserva,
+        contadores
     )
 
     # Operacion 8: Confirmar la reserva.
@@ -204,7 +232,8 @@ def ejecutar_simulacion():
     ejecutar_operacion(
         8,
         "Confirmar reserva",
-        confirmar_reserva
+        confirmar_reserva,  
+        contadores
     )
 
     # Operacion 9: Calcular costo con impuesto y descuento.
@@ -221,7 +250,8 @@ def ejecutar_simulacion():
     ejecutar_operacion(
         9,
         "Calcular costo con impuesto y descuento",
-        calcular_costo
+        calcular_costo,
+        contadores  
     )
 
     # Operacion 10: Procesar la reserva.
@@ -241,7 +271,8 @@ def ejecutar_simulacion():
     ejecutar_operacion(
         10,
         "Procesar reserva confirmada",
-        procesar_reserva
+        procesar_reserva,   
+        contadores
     )
 
     # Operacion 11: Intentar cancelar una reserva procesada.
@@ -251,7 +282,8 @@ def ejecutar_simulacion():
     ejecutar_operacion(
         11,
         "Intentar cancelar una reserva procesada",
-        cancelar_reserva_procesada
+        cancelar_reserva_procesada,
+        contadores
     )
 
     # Operacion 12: Crear una reserva con un servicio no disponible.
@@ -277,7 +309,8 @@ def ejecutar_simulacion():
     ejecutar_operacion(
         12,
         "Intentar procesar un servicio no disponible",
-        crear_reserva_no_disponible
+        crear_reserva_no_disponible,
+        contadores
     )
 
     # Operacion 13: Crear y cancelar una reserva pendiente.
@@ -297,7 +330,25 @@ def ejecutar_simulacion():
     ejecutar_operacion(
         13,
         "Cancelar una reserva pendiente",
-        cancelar_reserva_pendiente
+        cancelar_reserva_pendiente,
+        contadores
+    )
+
+    # Operacion 14: Intentar crear un servicio invalido.
+    def crear_servicio_invalido():
+        servicio = ReservaSala(
+            "Sala de pruebas",
+            80000,
+            0
+        )
+
+        servicios["sala_invalida"] = servicio
+
+    ejecutar_operacion(
+        14,
+        "Intentar crear una sala con capacidad invalida",
+        crear_servicio_invalido,
+        contadores
     )
 
     # Resumen final.
@@ -308,7 +359,9 @@ def ejecutar_simulacion():
     print(f"Clientes registrados: {len(clientes)}")
     print(f"Servicios creados: {len(servicios)}")
     print(f"Reservas creadas: {len(reservas)}")
-    print("Operaciones ejecutadas: 13")
+    print("Operaciones ejecutadas: 14")
+    print(f"Operaciones exitosas: {contadores['exitosas']}")
+    print(f"Operaciones fallidas: {contadores['fallidas']}")
 
     print("\nLa simulacion ha finalizado.")
     print("El sistema continua funcionando ante errores.")
